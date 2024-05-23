@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>City Transportation Demand Analysis</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            margin: 20px 0;
+        }
+        #map {
+            width: 100%;
+            height: 60vh;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        #selection {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #selection p {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>City Transportation Demand Analysis</h1>
+    <div id="map">
+        {{ map_html | safe }}
+    </div>
+    <div id="selection">
+        {% if msa1 and msa2 %}
+            <p>Selected MSAs: {{ msa1 }} and {{ msa2 }}</p>
+        {% else %}
+            <p>Select two MSAs to see the demand analysis</p>
+        {% endif %}
+        <form method="post">
+            <label for="msa1">Select MSA 1:</label>
+            <select name="msa1" id="msa1">
+                {% for msa in msa_data['MSA'] %}
+                    <option value="{{ msa }}">{{ msa }}</option>
+                {% endfor %}
+            </select><br>
+            <label for="msa2">Select MSA 2:</label>
+            <select name="msa2" id="msa2">
+                {% for msa in msa_data['MSA'] %}
+                    <option value="{{ msa }}">{{ msa }}</option>
+                {% endfor %}
+            </select><br>
+            <button type="submit">Analyze</button>
+        </form>
+    </div>
+</body>
+</html>
